@@ -3,13 +3,14 @@ title: "Introduction"
 teaching: 0
 exercises: 0
 questions:
-- "Key question (FIXME)"
+- "What is data science?"
 objectives:
-- "First learning objective. (FIXME)"
+- "Understand what the concept of data science is."
 keypoints:
 - "First key point. Brief Answer to questions. (FIXME)"
 ---
-FIXME
+
+## What is data science?
 
 {% include links.md %}
 
