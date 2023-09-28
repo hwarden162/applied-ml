@@ -31,7 +31,15 @@ Instead, we can split our data into three sets: a training set, a validation set
 
 ## Cross Validation
 
+![Cross Validation](../fig/cross_validation.png)
+
 ## Model Evaluation
+
+### Accuracy
+
+### Confusion Matrix
+
+### Precision and Recall
 
 ## Bias and Variance
 
