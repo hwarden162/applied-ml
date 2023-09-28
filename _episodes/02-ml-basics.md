@@ -19,7 +19,7 @@ Creating a model is all well and good, but how do we know that it is actually go
 > Discuss in small groups what proportion of data should be used for training. What are the advantages and disadvantages of using more or less data for training? If you have a lot of data, is it better to use more or less for training?
 {: .discussion}
 
-![Test/Train Split](../fig/test_train_split.png)
+![Test/Train Split](../fig/test_train_split.png){: width="600px"}
 
 ## Validation Set
 
@@ -27,11 +27,11 @@ Let's say we have two different models and we want to know which one to choose f
 
 Instead, we can split our data into three sets: a training set, a validation set and a test set. We can then train our models on the training set, evaluate them on the validation set and choose the best one. We can then evaluate the final model on the test set.
 
-![Test/Validation/Train Split](../fig/test_validation_train_split.png)
+![Test/Validation/Train Split](../fig/test_validation_train_split.png){: width="600px"}
 
 ## Cross Validation
 
-![Cross Validation](../fig/cross_validation.png)
+![Cross Validation](../fig/cross_validation.png){: width="600px"}
 
 ## Model Evaluation
 
