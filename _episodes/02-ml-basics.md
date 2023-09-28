@@ -3,11 +3,21 @@ title: "Machine Learning Basics"
 teaching: 0
 exercises: 0
 questions:
-- "Write something here."
+- "Why do we split data into training and testing sets?"
+- "When do we use validation sets?"
+- "What is cross validation?"
+- "How do we evaluate a model?"
+- "What is bias and variance?"
 objectives:
 - "Revise basic concepts in machine learning"
 keypoints:
-- "First key point. Brief Answer to questions. (FIXME)"
+- "Testing sets are used to estimate a models performance on new data"
+- "Validation sets are used to choose between different models or hyperparameters"
+- "Cross validation is a more advanced method for estimating the performance of a model"
+- "Accuracy is a simple metric for evaluating a model"
+- "Confusion matrices are a more detailed way of evaluating a model"
+- "Precision and recall are useful metrics for evaluating models when the classes are imbalanced"
+- "Bias and variance are useful concepts for understanding how a model will perform on new data"
 ---
 
 ## Test/Train Split
