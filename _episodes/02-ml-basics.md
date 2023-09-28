@@ -1,5 +1,5 @@
 ---
-title: "Introduction"
+title: "Machine Learning Basics"
 teaching: 0
 exercises: 0
 questions:
@@ -10,11 +10,15 @@ keypoints:
 - "First key point. Brief Answer to questions. (FIXME)"
 ---
 
-## What is Machine Learning?
+## Test/Train Split
 
-## What is a Model?
+## Validation Set
 
-## Parameters and Hyperparameters
+## Cross Validation
+
+## Model Evaluation
+
+## Bias and Variance
 
 {% include links.md %}
 

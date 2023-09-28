@@ -1,5 +1,5 @@
 ---
-title: "Introduction"
+title: "Building a Simple Workflow"
 teaching: 0
 exercises: 0
 questions:
@@ -10,11 +10,7 @@ keypoints:
 - "First key point. Brief Answer to questions. (FIXME)"
 ---
 
-## What is Machine Learning?
 
-## What is a Model?
-
-## Parameters and Hyperparameters
 
 {% include links.md %}
 
