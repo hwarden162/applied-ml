@@ -4,7 +4,7 @@ teaching: 0
 exercises: 0
 questions:
 - "How do you split your data?"
-- "What is a recipe?
+- "What is a recipe?"
 objectives:
 - "Write something here."
 keypoints:
