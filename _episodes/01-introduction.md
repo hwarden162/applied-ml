@@ -27,7 +27,7 @@ housing <- BostonHousing |>
     as_tibble()
 
 housing |>
-    glimpse()1
+    glimpse()
 ```
 
 ```
