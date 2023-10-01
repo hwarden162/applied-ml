@@ -49,7 +49,13 @@ Instead, we can split our data into three sets: a training set, a validation set
 
 ### Confusion Matrix
 
-### Precision and Recall
+### Sensitivity and Specificity
+
+Sensitivity and specificity are useful metrics for evaluating models when the classes are imbalanced. For example, if we are trying to predict whether a patient has a disease or not, we might have a dataset where 99% of the patients do not have the disease and only 1% do. If we were to create a model that always predicted that the patient did not have the disease, it would be 99% accurate, but it would not be very useful. Sensitivity and specificity are useful metrics for evaluating models in these situations.
+
+Both of these can be considered as conditional probabilities. Sensitivity is the probability that the model predicts a positive result given that the true result is positive. Specificity is the probability that the model predicts a negative result given that the true result is negative. That is to say, sensitivity is the probability of a true positive and specificity is the probability of a true negative.
+
+Plotting sensitivity and specificity against one another is often used to produce a receiver operating characteristic (ROC) curve. The area under the ROC curve (AUC) is a useful metric for evaluating models, but is not covered in this short course.
 
 ## Bias and Variance
 
