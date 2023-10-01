@@ -18,7 +18,7 @@ keypoints:
 
 ## What is a Workflow?
 
-![Example of a Workflow](../fig/workflow.png)
+![Example of a Workflow](../fig/workflow.png){: width="600px"}
 
 ## Loading Data
 
