@@ -49,7 +49,7 @@ Instead, we can split our data into three sets: a training set, a validation set
 
 ### Confusion Matrix
 
-![Confusion Matrix](../fig/confusion_matrix.png){: width="600px"}
+![Confusion Matrix](../fig/confusion_matrix.png){: width="800px"}
 
 ### Sensitivity and Specificity
 
