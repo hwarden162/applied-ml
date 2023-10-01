@@ -45,7 +45,13 @@ Instead, we can split our data into three sets: a training set, a validation set
 
 ## Model Evaluation
 
+### Error
+
+For regression tasks, the performance of a model is usually determined by the error. There are many different types of error, but the most common is the mean squared error (MSE). This is simply the mean of the squared differences between the true values and the predicted values. The reason for squaring the differences is that it penalises large errors more than small errors. 
+
 ### Accuracy
+
+Accuracy is the simplest metric for evaluating a model. For classification tasks, it is simply the proportion of predictions that are correct. For regression tasks, it is the proportion of predictions that are within a certain threshold of the true value. For example, if we are trying to predict the price of a house, we might say that the prediction is correct if it is within £10,000 of the true value.
 
 ### Confusion Matrix
 
