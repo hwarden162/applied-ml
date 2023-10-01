@@ -18,6 +18,8 @@ keypoints:
 
 ## What is a Workflow?
 
+![Example of a Workflow](../fig/workflow.png)
+
 ## Loading Data
 
 ```r
