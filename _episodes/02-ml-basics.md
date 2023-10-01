@@ -49,6 +49,8 @@ Instead, we can split our data into three sets: a training set, a validation set
 
 ### Confusion Matrix
 
+![Confusion Matrix](../fig/confusion_matrix.png){: width="600px"}
+
 ### Sensitivity and Specificity
 
 Sensitivity and specificity are useful metrics for evaluating models when the classes are imbalanced. For example, if we are trying to predict whether a patient has a disease or not, we might have a dataset where 99% of the patients do not have the disease and only 1% do. If we were to create a model that always predicted that the patient did not have the disease, it would be 99% accurate, but it would not be very useful. Sensitivity and specificity are useful metrics for evaluating models in these situations.
