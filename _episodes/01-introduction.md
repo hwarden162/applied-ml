@@ -20,6 +20,8 @@ keypoints:
 
 ![Example of a Workflow](../fig/workflow.png){: width="600px"}
 
+## Why use Tidymodels?
+
 ## Loading Data
 
 ```r
