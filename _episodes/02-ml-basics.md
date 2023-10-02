@@ -55,6 +55,10 @@ Accuracy is the simplest metric for evaluating a model. For classification tasks
 
 ### Confusion Matrix
 
+A confusion matrix is used to visualise the performance of a classification model. It shows the number of true positives, true negatives, false positives and false negatives. It is useful for understanding where a model is going wrong. For example, if a model is predicting a lot of false positives, it might be useful to look at the false positives and see if there is a pattern. Perhaps the model is predicting a lot of false positives for a particular class, in which case it might be useful to look at the data for that class and see if there is a problem with the data.
+
+Confusion matrices can be extended for multiclass problems. For example, if we have three classes, we can create a 3x3 matrix where the rows represent the true classes and the columns represent the predicted classes.
+
 ![Confusion Matrix](../fig/confusion_matrix.png){: width="800px"}
 
 ### Sensitivity and Specificity
