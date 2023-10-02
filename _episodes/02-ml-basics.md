@@ -71,7 +71,7 @@ Plotting sensitivity and specificity against one another is often used to produc
 
 ## Bias and Variance
 
-![Bias and Variance](../fig/bias_variance.png){: width="800px"}
+![Bias and Variance](../fig/bias_variance.png){: width="1000px"}
 
 {% include links.md %}
 
