@@ -79,6 +79,17 @@ housing_folds
 
 ## Preprocessing Your Data
 
+Preprocessing your data should take you a **really really really long time**. Machine learning has a *'garbage in = garbage out'* philosophy, which is to say that if you don't put useful information into your model then you won't get useful insights from your model.
+
+Data preprocessing starts **before you collect your data**. When planning experiments or surveys it is important to have a clear question in mind and ensure that you collect all of the data that you need. Machine learning is often synonimised with 'Big Data' and therefore comes with the misconception that giving your model more data will always help it improve.  Giving your model more data points (more observations) is beneficial to model performance, but there is an effect called the 'Hughes Phenomynon" that says giving your model more variables will help to a point, but then having to deal with all of these variables will decrease the power of your model and will have a negative effect on performance.
+
+Once you have collected your data, you might find that some (or all of) it needs transforming before it can be fed into a model. This can be done by hand, or there are ways to automate the process. To start investigating our data we can use the `skimr` package to create a short summary of each variable.
+
+> ## What Sort of Processing Might This (or a Similar) Dataset Need?
+>
+> In small groups or on your own, look at the summary informations and discuss what sort of processing this data, or a similar data set might need. Remember that we will be applying our model to *unseen data* and this may have different properties to the data before you.
+{: .discussion}
+
 ```r
 library(skimr)
 
@@ -120,6 +131,20 @@ Group variables            None
 ```
 {: .output}
 
+In 'tidymodels', we can use the 'recipes' package to create data preprocessing steps that can be pre-appended to the model. This means that when we give data to the model, the model will first use this recipe to transform the new observations and will then feed this tranformed data into the model and use that to make predictions.
+
+> ## What are the Advantages/Disadvantages of Using Data Preprocessors Over Manually Processing Data?
+>
+> What are the advantages and disadvantages of using data preprocessing as part of a workflow are compared to processing new data by hand.
+{: .discussion}
+
+In this section we are going to build an extremely basic recipe to preprocess our data. You can create a recipe using the `recipe` function. This takes two arguments, the first is a formula stating what variable you are going to be predicting and what variables you would like to use as predictors (the `.` syntax is shorthand for saying "use all other variables as predictors") and the second is the data that you would like to use to create the data preprocessor.
+
+> ## Why are We Only Using the Training Data?
+>
+> Why are we only using the training data to create our data preprocessor and not the full data set? What would be the problems (if any) of including the testing data in the training of the preprocessor?
+{: .discussion}
+
 ```r
 housing_rec <- recipe(medv ~ ., data = housing_train)
 
@@ -135,6 +160,8 @@ outcome:    1
 predictor: 13
 ```
 {: .output}
+
+At the moment, the only information encoded in this recipe is what variable we are trying to predict and what variables we are using for prediction. One fairly standard transformation we may like to apply to our model is normalisation (or centering and scaling), to do this we create a recipe "step". We pipe our recipe object into the step and it will create a sequence of instructions written in orser that we will apply to our data (just the same as piping multiple `dplyr` commands together). The function for normalising data is `step_normalize`, however we also need to tell it what variables we would like it to normalise. To do this you can explicitly type the name of the variable, use any of the `dplyr` selector functions or use some custom selector functions given by `recipes`. Here I have use a `recipes` selector function called `all_numeric_predictors()` that will transform any function registered as a predictor that is also numeric. You could also try using `all_numeric()` that will transform all variables, whether they are predictors or not.
 
 ```r
 housing_rec <- recipe(medv ~ ., data = housing_train) |>
@@ -155,6 +182,8 @@ predictor: 13
 • Centering and scaling for: all_numeric_predictors()
 ```
 {: .output}
+
+There is a problem with this though. If we have one numeric variable where all of the entries are the same, then this will have zero variance and so when we try and normalise it we will get a divide by zero error. On top of this, a variable where all of the entries are the same is not useful for training a model, so we should probably remove them. To do this we can use a near zero variance filter, this is specified using the `step_nzv` function and this time we can apply it to all predictors as it also isn't useful if we have a categorical variable that only contains one category. **Note:** we have put our near zero variance filter *before* the normalisation step as we would like the filter to be applied first.
 
 ```r
 housing_rec <- recipe(medv ~ ., data = housing_train) |>
@@ -178,6 +207,8 @@ predictor: 13
 ```
 {: .output}
 
+There are lots of different recipe steps that you can apply (you can see them by typing `recipes::step_` and scrolling through the auto complete) and we can't cover all of them here. So we will just give another example of how you might go through your data preprocessing. Looking at the outputs of our `skim` function, we can see that the variable `crim` has a heavy positive skew. This might indicate that a log transform could be useful here. Let's compare the raw value of `crim` with its log transform.
+
 ```r
 housing_train |>
   select(crim) |> 
@@ -196,6 +227,8 @@ housing_train |>
 ```
 
 ![Comparison of Treated Variables](../fig/crim_compare.png)
+
+Looking at this graph, it's likely the log transform of `crim` will be more useful than the raw values, so rather than manually transforming the data using `dplyr::mutate` we can add a recipe step to do it for us.
 
 ```r
 housing_rec <- recipe(medv ~ ., data = housing_train) |>
@@ -220,6 +253,13 @@ predictor: 13
 • Centering and scaling for: all_numeric_predictors()
 ```
 {: .output}
+
+At this point we should investigate every variable individually and decide what processing this variable will need, both from a machine learning point of view but also using your domain knowledge of where the data came from. There are step specifications for most, if not all, `dplyr` functions, there are extra packages that contain specifications for lots of different preprocessing steps and it is also possible to write your own.
+
+> ## Perform Your Own Preprocessing
+>
+> Spend a few minutes now adding a new step to this recipe to perform some data transformation task. This could be as simple as applying a log transform to another variable or you could also look at problems such as missing data (you could look at removing or imputing missing data).
+{: .challenge}
 
 ```r
 housing_rechousing_rec <- recipe(medv ~ ., data = housing_train) |>
