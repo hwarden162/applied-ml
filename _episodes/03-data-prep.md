@@ -261,8 +261,10 @@ At this point we should investigate every variable individually and decide what 
 > Spend a few minutes now adding a new step to this recipe to perform some data transformation task. This could be as simple as applying a log transform to another variable or you could also look at problems such as missing data (you could look at removing or imputing missing data).
 {: .challenge}
 
+All we have done so far is tell the preprocessor what we would like to do, we haven't actually fit it yet. We can do this by calling the `prep` function at the end, which will create a trained data preprocessor that (given the code below) will log the `crim` variable, **not** remove any columns (as all of the data has non-zero variance), will subtract the mean value of the training data set from each numeric predictor and will scale each numeric predictor by the standard deviation of the training set.
+
 ```r
-housing_rechousing_rec <- recipe(medv ~ ., data = housing_train) |>
+housing_rec <- recipe(medv ~ ., data = housing_train) |>
   step_log(crim) |> 
   step_nzv(all_predictors()) |> 
   step_normalize(all_numeric_predictors()) |> 
@@ -289,6 +291,8 @@ Training data contained 404 data points and no incomplete rows.
 ```
 {: .output}
 
+To extract the transformed training data from the preprocessor we can use the `juice` function. This can be useful if you want to retrospectively see if there are any anomolies etc. included in the training data.
+
 ```r
 juice(housing_rec)
 ```
@@ -312,6 +316,8 @@ juice(housing_rec)
 ```
 {: .output}
 
+To transform new data using the data preprocessor we can use the `bake` function.
+
 ```r
 bake(housing_rec, housing_test)
 ```
@@ -334,6 +340,8 @@ bake(housing_rec, housing_test)
 # ℹ Use `print(n = ...)` to see more rows
 ```
 {: .output}
+
+When training a model with `tidymodels` we don't actually have to transform (or bake) the data ourselves, we can add this preproceesor to the model worflow and it will automatically be applied when we predict using the model workflow.
 
 {% include links.md %}
 
