@@ -120,5 +120,106 @@ Group variables            None
 ```
 {: .output}
 
+```r
+housing_rec <- recipe(medv ~ ., data = housing_train)
+
+housing_rec
+```
+
+```
+── Recipe ────────────────────────────────────────────────────────────────────────────────────────────────
+
+── Inputs 
+Number of variables by role
+outcome:    1
+predictor: 13
+```
+{: .output}
+
+```r
+housing_rec <- recipe(medv ~ ., data = housing_train) |>
+  step_normalize(all_numeric_predictors())
+
+housing_rec
+```
+
+```
+── Recipe ────────────────────────────────────────────────────────────────────────────────────────────────
+
+── Inputs 
+Number of variables by role
+outcome:    1
+predictor: 13
+
+── Operations 
+• Centering and scaling for: all_numeric_predictors()
+```
+{: .output}
+
+```r
+housing_rec <- recipe(medv ~ ., data = housing_train) |>
+  step_nzv(all_predictors()) |> 
+  step_normalize(all_numeric_predictors())
+
+housing_rec
+```
+
+```
+── Recipe ────────────────────────────────────────────────────────────────────────────────────────────────
+
+── Inputs 
+Number of variables by role
+outcome:    1
+predictor: 13
+
+── Operations 
+• Sparse, unbalanced variable filter on: all_predictors()
+• Centering and scaling for: all_numeric_predictors()
+```
+{: .output}
+
+```r
+housing_train |>
+  select(crim) |> 
+  mutate(log_crim = log(crim)) |> 
+  pivot_longer(cols = everything()) |> 
+  ggplot() +
+  aes(
+    x = value
+  ) +
+  geom_histogram() +
+  facet_wrap(
+    ~ name,
+    scales = "free",
+    ncol = 1
+  )
+```
+
+![Comparison of Treated Variables](../fig/crim_compare.png)
+
+```r
+housing_rec <- recipe(medv ~ ., data = housing_train) |>
+  step_log(crim) |> 
+  step_nzv(all_predictors()) |> 
+  step_normalize(all_numeric_predictors())
+
+housing_rec
+```
+
+```
+── Recipe ────────────────────────────────────────────────────────────────────────────────────────────────
+
+── Inputs 
+Number of variables by role
+outcome:    1
+predictor: 13
+
+── Operations 
+• Log transformation on: crim
+• Sparse, unbalanced variable filter on: all_predictors()
+• Centering and scaling for: all_numeric_predictors()
+```
+{: .output}
+
 {% include links.md %}
 
