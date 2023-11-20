@@ -71,6 +71,8 @@ Computational engine: lm
 ```
 {: .output}
 
+Here you can see we have created a linear regression model object. The `mode` argument specifies that we want to create a regression model and the `engine` argument specifies that we want to use the `lm` function from the `stats` package to fit the model. For each type of model there are many different implementations of that model (generally different packages implement them slightly differently) and the `engine` argument allows us to specify which implementation we want to use which can make quite a big difference in some circumstances.
+
 We can also add this to our model and that's it! We have a workflow that we can use to train a model.
 
 ```r
