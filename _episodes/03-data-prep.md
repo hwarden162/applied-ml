@@ -91,7 +91,7 @@ Once you have collected your data, you might find that some (or all of) it needs
 {: .discussion}
 
 ```r
-library(skimr)
+# library(skimr)
 
 skim(housing_train)
 ```
@@ -152,7 +152,7 @@ housing_rec
 ```
 
 ```
-── Recipe ────────────────────────────────────────────────────────────────────────────────────────────────
+── Recipe ───────────────────────────────────────────────────────────────────────────────────────
 
 ── Inputs 
 Number of variables by role
@@ -161,7 +161,7 @@ predictor: 13
 ```
 {: .output}
 
-At the moment, the only information encoded in this recipe is what variable we are trying to predict and what variables we are using for prediction. One fairly standard transformation we may like to apply to our model is normalisation (or centering and scaling), to do this we create a recipe "step". We pipe our recipe object into the step and it will create a sequence of instructions written in orser that we will apply to our data (just the same as piping multiple `dplyr` commands together). The function for normalising data is `step_normalize`, however we also need to tell it what variables we would like it to normalise. To do this you can explicitly type the name of the variable, use any of the `dplyr` selector functions or use some custom selector functions given by `recipes`. Here I have use a `recipes` selector function called `all_numeric_predictors()` that will transform any function registered as a predictor that is also numeric. You could also try using `all_numeric()` that will transform all variables, whether they are predictors or not.
+At the moment, the only information encoded in this recipe is what variable we are trying to predict and what variables we are using for prediction. One fairly standard transformation we may like to apply to our model is normalisation (or centering and scaling), to do this we create a recipe “step”. We pipe our recipe object into the step and it will create a sequence of instructions written in orser that we will apply to our data (just the same as piping multiple dplyr commands together). The function for normalising data is `step_normalize`, however we also need to tell it what variables we would like it to normalise. To do this you can explicitly type the name of the variable, use any of the `dplyr` selector functions or use some custom selector functions given by `recipes`. Here I have use a `recipes` selector function called `all_numeric_predictors()` that will transform any function registered as a predictor that is also numeric. You could also try using `all_numeric()` that will transform all variables, whether they are predictors or not.
 
 ```r
 housing_rec <- recipe(medv ~ ., data = housing_train) |>
@@ -171,7 +171,7 @@ housing_rec
 ```
 
 ```
-── Recipe ────────────────────────────────────────────────────────────────────────────────────────────────
+── Recipe ───────────────────────────────────────────────────────────────────────────────────────
 
 ── Inputs 
 Number of variables by role
@@ -183,7 +183,7 @@ predictor: 13
 ```
 {: .output}
 
-There is a problem with this though. If we have one numeric variable where all of the entries are the same, then this will have zero variance and so when we try and normalise it we will get a divide by zero error. On top of this, a variable where all of the entries are the same is not useful for training a model, so we should probably remove them. To do this we can use a near zero variance filter, this is specified using the `step_nzv` function and this time we can apply it to all predictors as it also isn't useful if we have a categorical variable that only contains one category. **Note:** we have put our near zero variance filter *before* the normalisation step as we would like the filter to be applied first.
+There is a problem with this though. If we have one numeric variable where all of the entries are the same, then this will have zero variance and so when we try and normalise it we will get a divide by zero error. On top of this, a variable where all of the entries are the same is not useful for training a model, so we should probably remove them. To do this we can use a near zero variance filter, this is specified using the `step_nzv` function and this time we can apply it to all predictors as it also isn’t useful if we have a categorical variable that only contains one category. **Note:** we have put our near zero variance filter before the normalisation step as we would like the filter to be applied first.
 
 ```r
 housing_rec <- recipe(medv ~ ., data = housing_train) |>
@@ -194,7 +194,7 @@ housing_rec
 ```
 
 ```
-── Recipe ────────────────────────────────────────────────────────────────────────────────────────────────
+── Recipe ───────────────────────────────────────────────────────────────────────────────────────
 
 ── Inputs 
 Number of variables by role
@@ -207,7 +207,7 @@ predictor: 13
 ```
 {: .output}
 
-There are lots of different recipe steps that you can apply (you can see them by typing `recipes::step_` and scrolling through the auto complete) and we can't cover all of them here. So we will just give another example of how you might go through your data preprocessing. Looking at the outputs of our `skim` function, we can see that the variable `crim` has a heavy positive skew. This might indicate that a log transform could be useful here. Let's compare the raw value of `crim` with its log transform.
+There are lots of different recipe steps that you can apply (you can see them by typing `recipes::step_` and scrolling through the auto complete) and we can’t cover all of them here. So we will just give another example of how you might go through your data preprocessing. Looking at the outputs of our `skim` function, we can see that the variable `crim` has a heavy positive skew. This might indicate that a log transform could be useful here. Let’s compare the raw value of `crim` with its log transform.
 
 ```r
 housing_train |>
@@ -230,6 +230,7 @@ housing_train |>
 
 Looking at this graph, it's likely the log transform of `crim` will be more useful than the raw values, so rather than manually transforming the data using `dplyr::mutate` we can add a recipe step to do it for us.
 
+
 ```r
 housing_rec <- recipe(medv ~ ., data = housing_train) |>
   step_log(crim) |> 
@@ -240,7 +241,7 @@ housing_rec
 ```
 
 ```
-── Recipe ────────────────────────────────────────────────────────────────────────────────────────────────
+── Recipe ───────────────────────────────────────────────────────────────────────────────────────
 
 ── Inputs 
 Number of variables by role
@@ -251,6 +252,38 @@ predictor: 13
 • Log transformation on: crim
 • Sparse, unbalanced variable filter on: all_predictors()
 • Centering and scaling for: all_numeric_predictors()
+```
+{: .output}
+
+Most of the steps above are for dealing with numeric data, but we commonly have to deal with categorical data too. The most common way of dealing with categorical variables is through dummy variables. This means that if we have a categorical variable with $k$ categories, we create $k - 1$ new variables, one for each category. If an observation is in category $i$, then the $(i-1)$th dummy variable is set to 1 and all other dummy variables are set to 0. If the observation is in the first category though, we set all of the observations to 0, this is called the baseline. This means that we can use these dummy variables as predictors in our model. 
+
+![Extracting Dummy Variables](../fig/dummy_vars.png)
+
+To do this we can use the `step_dummy` function selecting `all_factor_predictors()`. This will create dummy variables for all of the categorical predictor variables in our data set.
+
+```r
+housing_rec <- recipe(medv ~ ., data = housing_train) |>
+  step_log(crim) |> 
+  step_nzv(all_predictors()) |> 
+  step_normalize(all_numeric_predictors()) |> 
+  step_dummy(all_factor_predictors())
+
+housing_rec
+```
+
+```
+── Recipe ───────────────────────────────────────────────────────────────────────────────────────
+
+── Inputs 
+Number of variables by role
+outcome:    1
+predictor: 13
+
+── Operations 
+• Log transformation on: crim
+• Sparse, unbalanced variable filter on: all_predictors()
+• Centering and scaling for: all_numeric_predictors()
+• Dummy variables from: all_factor_predictors()
 ```
 {: .output}
 
@@ -266,15 +299,16 @@ All we have done so far is tell the preprocessor what we would like to do, we ha
 ```r
 housing_rec <- recipe(medv ~ ., data = housing_train) |>
   step_log(crim) |> 
-  step_nzv(all_predictors()) |> 
+  step_nzv(all_predictors()) |>
   step_normalize(all_numeric_predictors()) |> 
+  step_dummy(all_factor_predictors()) |> 
   prep()
 
 housing_rec
 ```
 
 ```
-── Recipe ────────────────────────────────────────────────────────────────────────────────────────────────
+── Recipe ───────────────────────────────────────────────────────────────────────────────────────
 
 ── Inputs 
 Number of variables by role
@@ -287,7 +321,8 @@ Training data contained 404 data points and no incomplete rows.
 ── Operations 
 • Log transformation on: crim | Trained
 • Sparse, unbalanced variable filter removed: <none> | Trained
-• Centering and scaling for: crim, zn, indus, nox, rm, age, dis, rad, tax, ptratio, b, lstat | Trained
+• Centering and scaling for: crim, zn, indus, nox, rm, age, dis, rad, tax, ... | Trained
+• Dummy variables from: chas | Trained
 ```
 {: .output}
 
@@ -299,18 +334,18 @@ juice(housing_rec)
 
 ```
 # A tibble: 404 × 14
-     crim     zn   indus chas     nox     rm    age    dis    rad     tax ptratio      b  lstat  medv
-    <dbl>  <dbl>   <dbl> <fct>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>   <dbl>   <dbl>  <dbl>  <dbl> <dbl>
- 1 -0.386 -0.463  2.36   0      0.451 -1.66   1.02  -0.928 -0.636  1.78     0.747 -0.425  2.36    8.1
- 2  1.51  -0.463  0.969  0      1.39   0.754  0.264 -0.941  1.65   1.51     0.793 -3.41   1.40    8.4
- 3 -0.566 -0.463 -0.641  0     -0.930 -0.160 -2.20   0.918 -0.750 -1.04    -0.253  0.293 -0.948  25.3
- 4 -0.787 -0.463 -0.0796 0     -1.23   0.186 -2.20   0.713 -0.636 -0.613    0.338  0.297 -0.822  24.2
- 5 -0.615 -0.463 -0.641  0     -0.930  0.678 -2.34   0.918 -0.750 -1.04    -0.253  0.316 -1.08   26.6
- 6 -0.769 -0.463 -1.05   0     -0.399  0.184  0.533 -0.538 -0.522 -0.666   -0.844  0.427 -0.500  23.6
- 7 -1.54   3.76  -1.42   0     -1.32   1.19  -1.95   1.83  -0.750 -0.0421  -0.662  0.304 -1.14   32.9
- 8  1.08  -0.463  0.969  0      1.34  -0.430  0.667 -0.569  1.65   1.51     0.793 -3.83   0.880  12.7
- 9 -0.567 -0.463  0.368  0     -1.02  -0.689 -0.389  1.20  -0.636 -0.707   -1.12   0.443  0.441  20.3
-10 -0.904 -0.463 -1.28   0     -0.587 -0.195 -0.241 -0.561 -0.750 -1.27    -0.298  0.443 -0.444  36.2
+      crim      zn  indus    nox     rm    age    dis    rad     tax ptratio     b  lstat  medv chas_X1
+     <dbl>   <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>   <dbl>   <dbl> <dbl>  <dbl> <dbl>   <dbl>
+ 1 -0.960   0.0643 -0.732 -1.28  -0.609 -1.70   1.34  -0.632 -0.364    0.197 0.445 -0.625  22         0
+ 2  1.31   -0.487   1.04   1.24  -1.13   1.11  -1.07   1.69   1.55     0.791 0.452  1.66   12.3       0
+ 3  0.675  -0.487   1.25   0.418  2.37   0.978 -0.819 -0.517 -0.0185  -1.72  0.159 -1.24   50         0
+ 4 -0.789  -0.487   0.262 -1.03  -0.615 -1.16   0.373 -0.517 -0.0483   0.105 0.443 -0.486  20.3       0
+ 5  2.03   -0.487   1.04   1.18  -1.23   1.11  -1.09   1.69   1.55     0.791 0.452  2.50    5         0
+ 6 -1.26   -0.487  -0.861 -0.360 -0.584 -0.335  0.913 -0.517 -1.09     0.791 0.430 -0.283  18.5       0
+ 7  1.35   -0.487   1.04   1.18   0.253  1.07  -0.975  1.69   1.55     0.791 0.400  0.629  13.1       0
+ 8  0.0779  0.395  -1.04   0.781  1.32   0.813 -0.876 -0.517 -0.848   -2.50  0.356 -0.625  36.5       0
+ 9 -1.09    3.04   -1.13  -1.37  -0.741 -1.36   1.40  -0.632 -0.412   -1.08  0.452 -0.328  19.4       0
+10 -0.738   0.0643 -0.467 -0.282 -0.593 -1.07   0.834 -0.517 -0.567   -1.49  0.384  0.433  21.7       0
 # ℹ 394 more rows
 # ℹ Use `print(n = ...)` to see more rows
 ```
@@ -324,18 +359,18 @@ bake(housing_rec, housing_test)
 
 ```
 # A tibble: 102 × 14
-     crim      zn  indus chas     nox     rm     age      dis    rad    tax ptratio      b   lstat  medv
-    <dbl>   <dbl>  <dbl> <fct>  <dbl>  <dbl>   <dbl>    <dbl>  <dbl>  <dbl>   <dbl>  <dbl>   <dbl> <dbl>
- 1 -1.30  -0.463  -1.32  0     -0.845  0.204 -0.364   1.08    -0.750 -1.10   0.111  0.412  -1.03    28.7
- 2 -0.787  0.0920 -0.503 0     -0.278 -0.379 -0.0853  0.842   -0.522 -0.578 -1.48   0.429  -0.0311  22.9
- 3  0.134 -0.463  -0.464 0     -0.158 -0.628 -0.442   0.339   -0.636 -0.601  1.16   0.429  -0.579   19.9
- 4  0.377 -0.463  -0.464 0     -0.158 -0.487 -1.40    0.339   -0.636 -0.601  1.16   0.332  -0.841   23.1
- 5  0.419 -0.463  -0.464 0     -0.158 -0.813  0.918   0.00249 -0.636 -0.601  1.16   0.0211  0.789   13.1
- 6 -0.937 -0.463  -0.777 0     -0.493 -0.490 -0.0288 -0.200   -0.522 -0.766  0.338  0.443  -0.412   18.9
- 7 -0.466 -0.463  -0.777 0     -0.493 -0.444 -1.37    0.0309  -0.522 -0.766  0.338  0.405  -0.350   24.7
- 8 -1.33   2.87   -1.21  0     -1.10   0.434 -1.67    0.767   -0.750 -0.925 -0.0711 0.429  -1.15    30.8
- 9 -1.24   2.87   -1.21  0     -1.10   1.03  -1.88    0.767   -0.750 -0.925 -0.0711 0.429  -1.48    34.9
-10 -1.12   0.470  -0.824 0     -1.01  -0.236 -0.212   1.44    -0.636 -0.978 -0.753  0.411  -0.446   20.5
+     crim      zn  indus    nox     rm    age     dis    rad    tax ptratio       b  lstat  medv chas_X1
+    <dbl>   <dbl>  <dbl>  <dbl>  <dbl>  <dbl>   <dbl>  <dbl>  <dbl>   <dbl>   <dbl>  <dbl> <dbl>   <dbl>
+ 1 -0.334  0.0643 -0.467 -0.282  0.117  0.910  1.27   -0.517 -0.567 -1.49    0.406   1.09   15         0
+ 2  0.378 -0.487  -0.428 -0.161 -0.526 -1.42   0.371  -0.632 -0.591  1.16    0.345  -0.837  23.1       0
+ 3  0.348 -0.487  -0.428 -0.161 -0.703  1.11   0.175  -0.632 -0.591  1.16    0.427   1.01   14.5       0
+ 4  0.504 -0.487  -0.428 -0.161 -0.504  0.469  0.124  -0.632 -0.591  1.16   -1.30    2.10   13.2       0
+ 5  0.418 -0.487  -0.428 -0.161 -0.866  0.935  0.0259 -0.632 -0.591  1.16    0.0465  0.800  13.1       0
+ 6 -0.720 -0.487  -0.748 -0.498 -0.663 -0.270 -0.173  -0.517 -0.758  0.334   0.246  -0.165  20         0
+ 7 -1.30   2.82   -1.19  -1.11   0.434 -1.69   0.810  -0.748 -0.919 -0.0772  0.439  -1.15   30.8       0
+ 8 -0.596 -0.487  -0.608 -0.939  0.688 -2.37   0.965  -0.748 -1.03  -0.260   0.330  -1.08   26.6       0
+ 9 -0.614 -0.487  -0.608 -0.939 -0.331 -1.04   0.965  -0.748 -1.03  -0.260   0.372  -0.424  21.2       0
+10 -0.278 -0.487  -0.608 -0.939 -1.31   0.946  1.04   -0.748 -1.03  -0.260   0.452   2.53   14.4       0
 # ℹ 92 more rows
 # ℹ Use `print(n = ...)` to see more rows
 ```
