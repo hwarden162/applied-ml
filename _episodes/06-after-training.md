@@ -150,4 +150,48 @@ housing_test |>
 
 ## Saving a Model
 
+Once you have a model that you are happy with, you can save it to disk so that you can use it later. To do this we use the `saveRDS()` function. The first argument is the object you want to save, the second argument is the path to the file you want to save it to. In this case we are going to save our linear regression model last fit object to a file called `model.rds`.
+
+```r
+saveRDS(
+  housing_lin_reg_last_fit,
+  "model.rds"
+)
+```
+
+We can then read in this model again using the `readRDS()` function.
+
+```r
+model <- readRDS("model.rds")
+
+model |> 
+  extract_workflow()
+```
+
+```
+══ Workflow [trained] ══════════════════════════════════════════════════════════════════════
+Preprocessor: Recipe
+Model: linear_reg()
+
+── Preprocessor ────────────────────────────────────────────────────────────────────────────
+4 Recipe Steps
+
+• step_log()
+• step_nzv()
+• step_normalize()
+• step_dummy()
+
+── Model ───────────────────────────────────────────────────────────────────────────────────
+
+Call:
+stats::lm(formula = ..y ~ ., data = data)
+
+Coefficients:
+(Intercept)         crim           zn        indus          nox           rm          age  
+   22.51650      0.83052      0.96745      0.35432     -2.15434      2.73170     -0.04878  
+        dis          rad          tax      ptratio            b        lstat      chas_X1  
+   -2.72384      1.74809     -2.04659     -2.02828      0.99723     -4.26584      2.57621
+```
+{: .output}
+
 {% include links.md %}
