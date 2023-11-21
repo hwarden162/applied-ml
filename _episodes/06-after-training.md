@@ -143,6 +143,11 @@ housing_test |>
 
 ![Test Comparison Plot](../fig/test-comparison.png)
 
+> ## Is this model any good?
+>
+> Looking at this plot, do you think that the model we have trained is any good? Why or why not?
+{: .challenge}
+
 ## Saving a Model
 
 {% include links.md %}
