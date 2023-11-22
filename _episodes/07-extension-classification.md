@@ -80,4 +80,38 @@ library(caret)
 confusionMatrix(data = iris_test_res$pred, reference = iris_test_res$ref)
 ```
 
+```
+Confusion Matrix and Statistics
+
+            Reference
+Prediction   setosa versicolor virginica
+  setosa         10          0         0
+  versicolor      0          8         2
+  virginica       0          2         8
+
+Overall Statistics
+                                          
+               Accuracy : 0.8667          
+                 95% CI : (0.6928, 0.9624)
+    No Information Rate : 0.3333          
+    P-Value [Acc > NIR] : 2.296e-09       
+                                          
+                  Kappa : 0.8             
+                                          
+ Mcnemar's Test P-Value : NA              
+
+Statistics by Class:
+
+                     Class: setosa Class: versicolor Class: virginica
+Sensitivity                 1.0000            0.8000           0.8000
+Specificity                 1.0000            0.9000           0.9000
+Pos Pred Value              1.0000            0.8000           0.8000
+Neg Pred Value              1.0000            0.9000           0.9000
+Prevalence                  0.3333            0.3333           0.3333
+Detection Rate              0.3333            0.2667           0.2667
+Detection Prevalence        0.3333            0.3333           0.3333
+Balanced Accuracy           1.0000            0.8500           0.8500
+```
+{: .output}
+
 {% include links.md %}
