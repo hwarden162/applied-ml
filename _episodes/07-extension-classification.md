@@ -1,5 +1,5 @@
 ---
-title: "After Training a Model"
+title: "Full Walkthrough For Classification"
 teaching: 0
 exercises: 0
 questions:
@@ -62,6 +62,22 @@ data_last_fit <- data_wf |>
 
 data_last_fit |> 
   collect_metrics()
+
+iris_test_res <- data_test |> 
+  select(Species) |> 
+  bind_cols(
+    data_last_fit |> 
+      extract_workflow() |> 
+      predict(data_test)
+  ) |> 
+  transmute(
+    ref = Species,
+    pred = .pred_class 
+  )
+
+library(caret)
+
+confusionMatrix(data = iris_test_res$pred, reference = iris_test_res$ref)
 ```
 
 {% include links.md %}
