@@ -23,7 +23,7 @@ data_rec <- recipe(Species ~ ., data = data_train) |>
   step_normalize(all_numeric()) |> 
   prep()
 
-data_knn <- parsnip::nearest_neighbor(
+data_knn <- nearest_neighbor(
   mode = "classification",
   neighbors = tune(),
   weight_func = tune(),
