@@ -3,11 +3,11 @@ title: "Introduction"
 teaching: 0
 exercises: 0
 questions:
-- "Write something here."
+- "What is the purpose of this course?"
 objectives:
-- "Write something here."
+- "We are here to learn how to implement machine learning models with `tidymodels`."
 keypoints:
-- "First key point. Brief Answer to questions. (FIXME)"
+- "`tidymodels` is a collection of packages that are designed to work together to make it easier to build models."
 ---
 
 ## What is Machine Learning?

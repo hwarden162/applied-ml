@@ -6,7 +6,8 @@ questions:
 - "How do you split your data?"
 - "What is a recipe?"
 objectives:
-- "Write something here."
+- "Learn how to split your data."
+- "Learn how to create a recipe."
 keypoints:
 - "You can use `rsample` to split your data into training and testing sets."
 - "You can use `recipes` to create a recipe to preprocess your data."

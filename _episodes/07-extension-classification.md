@@ -3,11 +3,11 @@ title: "Full Walkthrough For Classification"
 teaching: 0
 exercises: 0
 questions:
-- "Write something here."
+- "Can we apply what we have learnt to a new dataset?"
 objectives:
-- "Write something here."
+- "Apply what we have learnt to a new dataset."
 keypoints:
-- "First key point. Brief Answer to questions. (FIXME)"
+- "We can apply what we have learnt to a new dataset."
 ---
 ```r
 data <- iris |> 

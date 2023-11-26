@@ -3,11 +3,11 @@ title: "Building a Simple Workflow"
 teaching: 0
 exercises: 0
 questions:
-- "Write something here."
+- "How do we make a workflow using `tidymodels`?"
 objectives:
-- "Write something here."
+- "Create a linear regression workflow using `tidymodels`."
 keypoints:
-- "First key point. Brief Answer to questions. (FIXME)"
+- "A workflow is a series of steps that are executed in order to accomplish a task."
 ---
 
 ## Creating a Workflow

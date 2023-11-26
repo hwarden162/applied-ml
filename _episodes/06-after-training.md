@@ -3,11 +3,14 @@ title: "After Training a Model"
 teaching: 0
 exercises: 0
 questions:
-- "Write something here."
+- "How do we test a model?"
+- "How do we save and load a model?"
 objectives:
-- "Write something here."
+- "Test a model on the testing data."
+- "Save and load a model."
 keypoints:
-- "First key point. Brief Answer to questions. (FIXME)"
+- "We can use `last_fit()` to test a model on the testing data."
+- "We can use `saveRDS()` and `readRDS()` to save and load a model."
 ---
 
 ## Testing a Model

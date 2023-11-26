@@ -3,11 +3,11 @@ title: "Hyperparameter Tuning"
 teaching: 0
 exercises: 0
 questions:
-- "Write something here."
+- "How do we tune the hyperparameters of a model?"
 objectives:
-- "Write something here."
+- "Create a random forest model using `tidymodels`."
 keypoints:
-- "First key point. Brief Answer to questions. (FIXME)"
+- "Hyperparameters are the settings of a model that we have to set ourselves."
 ---
 
 ## Hyperparameter Tuning
