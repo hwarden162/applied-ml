@@ -41,9 +41,15 @@ Instead, we can split our data into three sets: a training set, a validation set
 
 ## Cross Validation
 
+Cross validation is a more advanced method for estimating the performance of a model. It is useful when we have a small dataset and we want to get a more accurate estimate of the performance of our model. It is also useful when we want to tune the hyperparameters of our model. 
+
+The basic idea is to split the data into k folds. We then train our model on k-1 folds and evaluate it on the remaining fold. We repeat this process k times, each time using a different fold for evaluation. We can then average the results to get an estimate of the performance of our model.
+
 ![Cross Validation](../fig/cross_validation.png){: width="600px"}
 
 ## Model Evaluation
+
+There are many different ways to evaluate a model. The most common are error, accuracy, confusion matrix, sensitivity and specificity. Which one you use depends on the type of problem you are trying to solve.
 
 ### Error
 
@@ -70,6 +76,10 @@ Both of these can be considered as conditional probabilities. Sensitivity is the
 Plotting sensitivity and specificity against one another is often used to produce a receiver operating characteristic (ROC) curve. The area under the ROC curve (AUC) is a useful metric for evaluating models, but is not covered in this short course.
 
 ## Bias and Variance
+
+Bias and variance are useful concepts for understanding how a model will perform on new data. Bias is the difference between the expected value of the predictions and the true value. Variance is the variability of the predictions. A model with high bias will tend to underfit the data, whereas a model with high variance will tend to overfit the data.
+
+Thinking back to the ideas of structure and noise, we can see that bias is related to structure and variance is related to noise. A model with high bias will tend to not capture all of the structure and a model with high variance will tend to have a lot of noise.
 
 ![Bias and Variance](../fig/bias_variance.png){: width="1000px"}
 

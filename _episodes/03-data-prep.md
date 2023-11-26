@@ -16,6 +16,8 @@ keypoints:
 
 ### Test/Train Split
 
+The first thing that you need to do when you have your data is to split it into a training and testing set. This is so that you can train your model on one set of data and then test it on another set of data. This is important because if you train your model on all of your data then you won't have any data left to test it on. This means that you won't be able to tell if your model is overfitting to your data.
+
 ```r
 housing_split <- housing |> 
   initial_split(prop = 0.8)
@@ -47,6 +49,8 @@ housing_train
 {: .output}
 
 ### Validation Splits
+
+You can also use `rsample` to create validation splits. These are useful if you want to tune your model hyperparameters. You can use `vfold_cv` to create a validation split. This will create a number of folds (5 by default) and then repeat this a number of times (3 by default). You can then use these folds to tune your model (as wel will see in  a later episode).
 
 ```r
 housing_folds <- vfold_cv(housing_train, v = 5, repeats = 3)
