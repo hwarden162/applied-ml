@@ -385,7 +385,7 @@ housing_rfrst_res <- housing_rfrst_fit |>
 
 housing_train |> 
   select(medv) |> 
-  bind_cols(housing_res) |> 
+  bind_cols(housing_rfrst_res) |> 
   ggplot() +
   aes(
     x = medv,
